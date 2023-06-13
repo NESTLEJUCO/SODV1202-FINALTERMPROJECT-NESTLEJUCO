@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO/1.0.0": {
+        "runtime": {
+          "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

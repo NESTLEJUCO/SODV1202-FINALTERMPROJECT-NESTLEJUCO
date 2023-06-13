@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>SODV1202_Connect4FINALPROJECT_NESTLE_JUCO</RootNamespace>
+  </PropertyGroup>
+
+</Project>
