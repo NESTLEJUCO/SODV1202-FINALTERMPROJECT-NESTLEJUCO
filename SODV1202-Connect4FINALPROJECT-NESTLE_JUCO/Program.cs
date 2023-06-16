@@ -39,8 +39,8 @@ namespace SODV1202FinalProject
             string player1Name = Console.ReadLine();
             Console.Write("Enter name for Player 2: ");
             string player2Name = Console.ReadLine();
-            player1 = new Player(player1Name, 'X');
-            player2 = new Player(player2Name, 'O');
+            player1 = new HumanPlayer(player1Name, 'X');
+            player2 = new HumanPlayer(player2Name, 'O');
         }
 
         public void Play()
@@ -260,7 +260,20 @@ namespace SODV1202FinalProject
         }
     }
 
-    class Player
+    /*class Player
+    {
+        public string Name { get; }
+        public char Symbol { get; }
+
+        public Player(string name, char symbol)
+        {
+            Name = name;
+            Symbol = symbol;
+        }
+    }*/
+
+    //Player Abstract Class and Inheritance
+    abstract class Player
     {
         public string Name { get; }
         public char Symbol { get; }
@@ -271,6 +284,14 @@ namespace SODV1202FinalProject
             Symbol = symbol;
         }
     }
+
+    class HumanPlayer : Player
+    {
+        public HumanPlayer(string name, char symbol) : base(name, symbol)
+        {
+        }
+    }
+
 
     class Program
     {
@@ -299,8 +320,8 @@ namespace SODV1202FinalProject
                 }
                 else if (sel == 2)
                 {
-                    Console.WriteLine("Sorry, this game mode is not yet available.");
-                    isValidSelection = true;
+                    Console.WriteLine("Sorry, this game mode is not yet available. Select other game mode.");
+                    //isValidSelection = true;
                 }
                 else if (sel == 3)
                 {
