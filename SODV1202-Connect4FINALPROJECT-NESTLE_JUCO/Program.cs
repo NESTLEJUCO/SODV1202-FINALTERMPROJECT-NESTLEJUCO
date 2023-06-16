@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SODV1202FinalProject
 {
     // Interface
-    interface IGame
+    interface IConnectFourGame
     {
         void Play();
     }
@@ -29,6 +30,27 @@ namespace SODV1202FinalProject
         }
     }
 
+    // Inheritance AIPlayer Class
+    public class AIPlayer : Player
+    {
+        public AIPlayer(string name, char symbol) : base(name, symbol)
+        {
+        }
+
+        public int GetMove(GameBoard gameBoard)
+        {
+            //AI logic to choose move
+            Random random = new Random();
+            int column;
+            do
+            {
+                column = random.Next(GameBoard.Columns);
+            } while (!gameBoard.IsValidMove(column));
+            return column;
+        }
+    }
+
+
     // Game Board Class
     public class GameBoard
     {
@@ -37,7 +59,7 @@ namespace SODV1202FinalProject
         public char[,] board;
         private bool isPlayerOnesTurn;
         private HumanPlayer player1;
-        private HumanPlayer player2;
+        private Player player2;
 
         public GameBoard()
         {
@@ -213,10 +235,16 @@ namespace SODV1202FinalProject
         {
             this.isPlayerOnesTurn = isPlayerOnesTurn;
         }
+
+        public void SetPlayersAI(HumanPlayer player1, AIPlayer player2)
+        {
+            this.player1 = player1;
+            this.player2 = player2;
+        }
     }
 
     // Two Player Human vs Human Mode Class
-    class Connect4TwoPlayerHuman : IGame
+    class Connect4TwoPlayerHuman : IConnectFourGame
     {
         private GameBoard gameBoard;
         private bool isPlayerOnesTurn;
@@ -315,7 +343,125 @@ namespace SODV1202FinalProject
         }
     }
 
-    //
+    // Two Player Human vs AI Mode Class
+    class Connect4PlayerVsAI : IConnectFourGame
+    {
+        private GameBoard gameBoard;
+        private bool isPlayerOnesTurn;
+        private HumanPlayer player1;
+        private AIPlayer player2;
+
+        public Connect4PlayerVsAI()
+        {
+            gameBoard = new GameBoard();
+            isPlayerOnesTurn = true;
+            gameBoard.InitializeBoard();
+            Console.WriteLine("\nConnect 4 Player vs AI Battle Selected!\n");
+            InitializePlayers();
+            gameBoard.SetPlayersAI(player1, player2);
+            gameBoard.SetPlayerTurn(isPlayerOnesTurn);
+        }
+
+        private void InitializePlayers()
+        {
+            Console.Write("Enter name for Player: ");
+            string playerName = Console.ReadLine();
+            player1 = new HumanPlayer(playerName, 'X');
+            player2 = new AIPlayer("AI", 'O');
+        }
+
+        public void Play()
+        {
+            bool isGameOver = false;
+
+            while (!isGameOver)
+            {
+                Console.Clear();
+                gameBoard.PrintBoard();
+
+                if (isPlayerOnesTurn)
+                {
+                    int column = gameBoard.GetMove();
+                    if (gameBoard.IsValidMove(column))
+                    {
+                        int row = gameBoard.DropPiece(column);
+
+                        if (gameBoard.IsWinningMove(row, column))
+                        {
+                            Console.Clear();
+                            gameBoard.PrintBoard();
+                            Console.WriteLine($"It's a connect four! Player {player1.Name} wins!");
+
+                            isGameOver = true;
+                        }
+                        else if (gameBoard.IsDraw())
+                        {
+                            Console.Clear();
+                            gameBoard.PrintBoard();
+                            Console.WriteLine("It's a draw!");
+
+                            isGameOver = true;
+                        }
+                        else
+                        {
+                            isPlayerOnesTurn = !isPlayerOnesTurn;
+                            gameBoard.SetPlayerTurn(isPlayerOnesTurn);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move. Try again.");
+                    }
+                }
+                else
+                {
+                    int column = player2.GetMove(gameBoard);
+                    int row = gameBoard.DropPiece(column);
+
+                    Console.Clear();
+                    gameBoard.PrintBoard();
+
+                    if (gameBoard.IsWinningMove(row, column))
+                    {
+                        Console.WriteLine($"It's a connect four! Player {player2.Name} wins!");
+
+                        isGameOver = true;
+                    }
+                    else if (gameBoard.IsDraw())
+                    {
+                        Console.WriteLine("It's a draw!");
+
+                        isGameOver = true;
+                    }
+                    else
+                    {
+                        isPlayerOnesTurn = !isPlayerOnesTurn;
+                        gameBoard.SetPlayerTurn(isPlayerOnesTurn);
+                    }
+                }
+            }
+
+            if (PlayAgain())
+            {
+                isGameOver = false;
+                gameBoard.InitializeBoard();
+                gameBoard.SetPlayerTurn(true);
+                Play();
+            }
+            else
+            {
+                Console.WriteLine("Thank you for playing!");
+            }
+        }
+
+        private bool PlayAgain()
+        {
+            Console.Write("Do you want to play again? (Y/N): ");
+            string input = Console.ReadLine().Trim();
+            return input.Equals("Y", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
 
     // Game Menu Launch Class
     class Menu
@@ -344,10 +490,8 @@ namespace SODV1202FinalProject
                 }
                 else if (sel == 2)
                 {
-                    Console.WriteLine("Game mode not yet available. Please select another game mode.");
-                    //Connect4TwoPlayerAI game = new Connect4TwoPlayerAI();
-                    //game.Play();
-                    //isValidSelection = true;
+                    HumanVsAI();
+                    isValidSelection = true;
                 }
                 else if (sel == 3)
                 {
@@ -364,6 +508,12 @@ namespace SODV1202FinalProject
         public static void HumanVsHuman()
         {
             Connect4TwoPlayerHuman game = new Connect4TwoPlayerHuman();
+            game.Play();
+        }
+
+        public static void HumanVsAI()
+        {
+            Connect4PlayerVsAI game = new Connect4PlayerVsAI();
             game.Play();
         }
     }
