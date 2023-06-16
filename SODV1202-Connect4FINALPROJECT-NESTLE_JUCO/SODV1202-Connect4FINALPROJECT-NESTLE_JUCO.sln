@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO", "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO.csproj", "{2673E456-A030-4457-8BD2-142C77488EC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO", "SODV1202-Connect4FINALPROJECT-NESTLE_JUCO.csproj", "{AE8800E5-9BCA-4C78-A614-F3998DC62EB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2673E456-A030-4457-8BD2-142C77488EC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2673E456-A030-4457-8BD2-142C77488EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2673E456-A030-4457-8BD2-142C77488EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2673E456-A030-4457-8BD2-142C77488EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8800E5-9BCA-4C78-A614-F3998DC62EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8800E5-9BCA-4C78-A614-F3998DC62EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8800E5-9BCA-4C78-A614-F3998DC62EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8800E5-9BCA-4C78-A614-F3998DC62EB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B4853514-359E-4D11-9173-BDA2FF86C471}
+		SolutionGuid = {D4F6A29A-BF9A-4141-A081-B2871334D9DA}
 	EndGlobalSection
 EndGlobal

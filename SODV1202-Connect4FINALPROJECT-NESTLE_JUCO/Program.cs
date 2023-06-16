@@ -1,17 +1,15 @@
-﻿//SODV1202 Connect Four Game Final Term Project
-//Submitted By: Nestle Juco
-using System;
+﻿using System;
 
 namespace SODV1202FinalProject
 {
-    //Interface
+    // Interface
     interface IGame
     {
         void Play();
     }
 
-    //Player Abstract Class and Inheritance
-    abstract class Player
+    // Abstract Player Class
+    public abstract class Player
     {
         public string Name { get; }
         public char Symbol { get; }
@@ -23,32 +21,31 @@ namespace SODV1202FinalProject
         }
     }
 
-    class HumanPlayer : Player
+    // Inheritance HumanPlayer Class
+    public class HumanPlayer : Player
     {
         public HumanPlayer(string name, char symbol) : base(name, symbol)
         {
         }
     }
 
-    class Connect4TwoPlayerHuman: IGame
+    // Game Board Class
+    public class GameBoard
     {
-        private const int Rows = 6;
-        private const int Columns = 7;
-        private char[,] board;
+        public const int Rows = 6;
+        public const int Columns = 7;
+        public char[,] board;
         private bool isPlayerOnesTurn;
-        private Player player1;
-        private Player player2;
+        private HumanPlayer player1;
+        private HumanPlayer player2;
 
-        public Connect4TwoPlayerHuman()
+        public GameBoard()
         {
             board = new char[Rows, Columns];
-            isPlayerOnesTurn = true;
             InitializeBoard();
-            Console.WriteLine("\nConnect 4 Two Player Human vs Human Battle Selected!\n");
-            InitializePlayers();
         }
 
-        private void InitializeBoard()
+        public void InitializeBoard()
         {
             for (int row = 0; row < Rows; row++)
             {
@@ -59,87 +56,7 @@ namespace SODV1202FinalProject
             }
         }
 
-        private void InitializePlayers()
-        {
-            Console.Write("Enter name for Player 1: ");
-            string player1Name = Console.ReadLine();
-            Console.Write("Enter name for Player 2: ");
-            string player2Name = Console.ReadLine();
-            player1 = new HumanPlayer(player1Name, 'X');
-            player2 = new HumanPlayer(player2Name, 'O');
-        }
-
-        public void Play()
-        {
-            bool isGameOver = false;
-
-            while (!isGameOver)
-            {
-                Console.Clear();
-                PrintBoard();
-
-                int column = GetMove();
-                if (IsValidMove(column))
-                {
-                    int row = DropPiece(column);
-
-                    if (IsWinningMove(row, column))
-                    {
-                        Console.Clear();
-                        PrintBoard();
-                        Console.WriteLine($"It's a connect four! Player {(isPlayerOnesTurn ? player1.Name : player2.Name)} wins!");
-
-                        isGameOver = true;
-                        if (PlayAgain())
-                        {
-                            isGameOver = false;
-                            InitializeBoard();
-                            isPlayerOnesTurn = true;
-                        }
-                    }
-                    else if (IsDraw())
-                    {
-                        Console.Clear();
-                        PrintBoard();
-                        Console.WriteLine("It's a draw!");
-
-                        isGameOver = true;
-                        if (PlayAgain())
-                        {
-                            isGameOver = false;
-                            InitializeBoard();
-                            isPlayerOnesTurn = true;
-                        }
-                    }
-                    else
-                    {
-                        isPlayerOnesTurn = !isPlayerOnesTurn;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid move. Try again.");
-                }
-            }
-        }
-
-        private bool PlayAgain()
-        {
-            Console.Write("Do you want to play again? (Y/N): ");
-            string input = Console.ReadLine().Trim();
-            if (input == "Y" || input == "y")
-            {
-                return input.Equals("Y", StringComparison.OrdinalIgnoreCase);
-            }
-            else
-            {
-                Console.WriteLine("Thank you for playing!");
-            }
-            return false;
-        }
-
-
-        private void PrintBoard()
+        public void PrintBoard()
         {
             Console.WriteLine("Connect Four Game Project\n");
             for (int row = 0; row < Rows; row++)
@@ -156,25 +73,8 @@ namespace SODV1202FinalProject
             Console.WriteLine("-----------------------------");
         }
 
-        private int GetMove()
-        {
-            Player currentPlayer = isPlayerOnesTurn ? player1 : player2;
-            Console.WriteLine($"Player {currentPlayer.Name}'s turn, enter a column number (1-7):");
-            int column = Convert.ToInt32(Console.ReadLine()) - 1;
-            return column;
-        }
+        public int DropPiece(int column)
 
-        private bool IsValidMove(int column)
-        {
-            if (column < 0 || column >= Columns)
-            {
-                return false;
-            }
-
-            return board[0, column] == ' ';
-        }
-
-        private int DropPiece(int column)
         {
             int row = -1;
             for (int i = Rows - 1; i >= 0; i--)
@@ -190,7 +90,7 @@ namespace SODV1202FinalProject
             return row;
         }
 
-        private bool IsWinningMove(int row, int col)
+        public bool IsWinningMove(int row, int col)
         {
             char playerSymbol = isPlayerOnesTurn ? player1.Symbol : player2.Symbol;
 
@@ -273,7 +173,7 @@ namespace SODV1202FinalProject
             return false;
         }
 
-        private bool IsDraw()
+        public bool IsDraw()
         {
             for (int col = 0; col < Columns; col++)
             {
@@ -284,23 +184,143 @@ namespace SODV1202FinalProject
             }
             return true;
         }
+
+        public int GetMove()
+        {
+            Player currentPlayer = isPlayerOnesTurn ? player1 : player2;
+            Console.WriteLine($"Player {currentPlayer.Name}'s turn, enter a column number (1-7):");
+            int column = Convert.ToInt32(Console.ReadLine()) - 1;
+            return column;
+        }
+
+        public bool IsValidMove(int column)
+        {
+            if (column < 0 || column >= Columns)
+            {
+                return false;
+            }
+
+            return board[0, column] == ' ';
+        }
+
+        public void SetPlayers(HumanPlayer player1, HumanPlayer player2)
+        {
+            this.player1 = player1;
+            this.player2 = player2;
+        }
+
+        public void SetPlayerTurn(bool isPlayerOnesTurn)
+        {
+            this.isPlayerOnesTurn = isPlayerOnesTurn;
+        }
     }
 
-    /*class Player
+    // Two Player Human vs Human Mode Class
+    class Connect4TwoPlayerHuman : IGame
     {
-        public string Name { get; }
-        public char Symbol { get; }
+        private GameBoard gameBoard;
+        private bool isPlayerOnesTurn;
+        private HumanPlayer player1;
+        private HumanPlayer player2;
 
-        public Player(string name, char symbol)
+        public Connect4TwoPlayerHuman()
         {
-            Name = name;
-            Symbol = symbol;
+            gameBoard = new GameBoard();
+            isPlayerOnesTurn = true;
+            gameBoard.InitializeBoard();
+            Console.WriteLine("\nConnect 4 Two Player Human vs Human Battle Selected!\n");
+            InitializePlayers();
+            gameBoard.SetPlayers(player1, player2);
+            gameBoard.SetPlayerTurn(isPlayerOnesTurn);
         }
-    }*/
 
-    class Program
+        private void InitializePlayers()
+        {
+            Console.Write("Enter name for Player 1: ");
+            string player1Name = Console.ReadLine();
+            Console.Write("Enter name for Player 2: ");
+            string player2Name = Console.ReadLine();
+            player1 = new HumanPlayer(player1Name, 'X');
+            player2 = new HumanPlayer(player2Name, 'O');
+        }
+
+        public void Play()
+        {
+            bool isGameOver = false;
+
+            while (!isGameOver)
+            {
+                Console.Clear();
+                gameBoard.PrintBoard();
+
+                int column = gameBoard.GetMove();
+                if (gameBoard.IsValidMove(column))
+                {
+                    int row = gameBoard.DropPiece(column);
+
+                    if (gameBoard.IsWinningMove(row, column))
+                    {
+                        Console.Clear();
+                        gameBoard.PrintBoard();
+                        Console.WriteLine($"It's a connect four! Player {(isPlayerOnesTurn ? player1.Name : player2.Name)} wins!");
+
+                        isGameOver = true;
+                        if (PlayAgain())
+                        {
+                            isGameOver = false;
+                            gameBoard.InitializeBoard();
+                            gameBoard.SetPlayerTurn(true);
+                        }
+                    }
+                    else if (gameBoard.IsDraw())
+                    {
+                        Console.Clear();
+                        gameBoard.PrintBoard();
+                        Console.WriteLine("It's a draw!");
+
+                        isGameOver = true;
+                        if (PlayAgain())
+                        {
+                            isGameOver = false;
+                            gameBoard.InitializeBoard();
+                            gameBoard.SetPlayerTurn(true);
+                        }
+                    }
+                    else
+                    {
+                        isPlayerOnesTurn = !isPlayerOnesTurn;
+                        gameBoard.SetPlayerTurn(isPlayerOnesTurn);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid move. Try again.");
+                }
+            }
+        }
+
+        private bool PlayAgain()
+        {
+            Console.Write("Do you want to play again? (Y/N): ");
+            string input = Console.ReadLine().Trim();
+            if (input.Equals("Y", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Thank you for playing!");
+            }
+            return false;
+        }
+    }
+
+    //
+
+    // Game Menu Launch Class
+    class Menu
     {
-        static void Main(string[] args)
+        public static void GameMenu()
         {
             Console.WriteLine("Welcome to Connect Four Game!\n");
             Console.WriteLine("Please select game mode below:\n");
@@ -319,13 +339,14 @@ namespace SODV1202FinalProject
 
                 if (sel == 1)
                 {
-                    Connect4TwoPlayerHuman game = new Connect4TwoPlayerHuman();
-                    game.Play();
+                    HumanVsHuman();
                     isValidSelection = true;
                 }
                 else if (sel == 2)
                 {
-                    Console.WriteLine("Sorry, this game mode is not yet available. Select other game mode.");
+                    Console.WriteLine("Game mode not yet available. Please select another game mode.");
+                    //Connect4TwoPlayerAI game = new Connect4TwoPlayerAI();
+                    //game.Play();
                     //isValidSelection = true;
                 }
                 else if (sel == 3)
@@ -338,6 +359,21 @@ namespace SODV1202FinalProject
                     Console.WriteLine("Invalid Selection. Please try again.\n");
                 }
             }
+        }
+
+        public static void HumanVsHuman()
+        {
+            Connect4TwoPlayerHuman game = new Connect4TwoPlayerHuman();
+            game.Play();
+        }
+    }
+
+    //Main Program Class
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Menu.GameMenu();
         }
     }
 }
