@@ -4,7 +4,33 @@ using System;
 
 namespace SODV1202FinalProject
 {
-    class Connect4TwoPlayerHuman
+    //Interface
+    interface IGame
+    {
+        void Play();
+    }
+
+    //Player Abstract Class and Inheritance
+    abstract class Player
+    {
+        public string Name { get; }
+        public char Symbol { get; }
+
+        public Player(string name, char symbol)
+        {
+            Name = name;
+            Symbol = symbol;
+        }
+    }
+
+    class HumanPlayer : Player
+    {
+        public HumanPlayer(string name, char symbol) : base(name, symbol)
+        {
+        }
+    }
+
+    class Connect4TwoPlayerHuman: IGame
     {
         private const int Rows = 6;
         private const int Columns = 7;
@@ -271,27 +297,6 @@ namespace SODV1202FinalProject
             Symbol = symbol;
         }
     }*/
-
-    //Player Abstract Class and Inheritance
-    abstract class Player
-    {
-        public string Name { get; }
-        public char Symbol { get; }
-
-        public Player(string name, char symbol)
-        {
-            Name = name;
-            Symbol = symbol;
-        }
-    }
-
-    class HumanPlayer : Player
-    {
-        public HumanPlayer(string name, char symbol) : base(name, symbol)
-        {
-        }
-    }
-
 
     class Program
     {
