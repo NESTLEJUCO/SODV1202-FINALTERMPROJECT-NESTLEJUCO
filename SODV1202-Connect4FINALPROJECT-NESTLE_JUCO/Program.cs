@@ -212,7 +212,7 @@ namespace SODV1202FinalProject
         public int GetMove()
         {
             Player currentPlayer = isPlayerOnesTurn ? player1 : player2;
-            Console.WriteLine($"Player {currentPlayer.Name}'s turn, enter a column number (1-7):");
+            Console.Write($"Player {currentPlayer.Name}'s turn.\nEnter a column number from 1-7, then press Enter: ");
             int column = Convert.ToInt32(Console.ReadLine()) - 1;
             return column;
         }
@@ -343,7 +343,7 @@ namespace SODV1202FinalProject
             }
             else
             {
-                Console.WriteLine("\nThank you for playing!");
+                Console.WriteLine("\nThank you for playing! Returning to Game Menu. Please wait.");
                 Thread.Sleep(2000);
                 Console.Clear();
                 Menu.GameMenu();
@@ -424,6 +424,9 @@ namespace SODV1202FinalProject
                 }
                 else
                 {
+                    Console.WriteLine("Player AI Bot's turn.\nAI Bot is choosing a move, please wait.");
+                    Thread.Sleep(2000);
+                    
                     int column = player2.GetMove(gameBoard);
                     int row = gameBoard.DropPiece(column);
 
@@ -459,7 +462,7 @@ namespace SODV1202FinalProject
             }
             else
             {
-                Console.WriteLine("Thank you for playing!");
+                Console.WriteLine("\nThank you for playing! Returning to Game Menu. Please wait.");
                 Thread.Sleep(2000);
                 Console.Clear();
                 Menu.GameMenu();
@@ -491,7 +494,7 @@ namespace SODV1202FinalProject
 
             while (!isValidSelection)
             {
-                Console.Write("Key in Selection (1-3): ");
+                Console.Write("Key in Selection from 1-3, then press Enter: ");
                 string select = Console.ReadLine();
                 sel = int.Parse(select);
 
@@ -507,7 +510,7 @@ namespace SODV1202FinalProject
                 }
                 else if (sel == 3)
                 {
-                    Console.WriteLine("Exit Game, Thank you for playing!");
+                    Console.WriteLine("\nExit Game, Thank you for playing!");
                     return;
                 }
                 else
