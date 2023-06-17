@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace SODV1202FinalProject
 {
@@ -22,7 +23,7 @@ namespace SODV1202FinalProject
         }
     }
 
-    // Inheritance HumanPlayer Class
+    // Inheritance HumanPlayer Class with Base Class
     public class HumanPlayer : Player
     {
         public HumanPlayer(string name, char symbol) : base(name, symbol)
@@ -30,7 +31,7 @@ namespace SODV1202FinalProject
         }
     }
 
-    // Inheritance AIPlayer Class
+    // Inheritance AIPlayer Class with Base Class
     public class AIPlayer : Player
     {
         public AIPlayer(string name, char symbol) : base(name, symbol)
@@ -39,7 +40,7 @@ namespace SODV1202FinalProject
 
         public int GetMove(GameBoard gameBoard)
         {
-            //AI logic to choose move
+            //AI player move code
             Random random = new Random();
             int column;
             do
@@ -49,7 +50,6 @@ namespace SODV1202FinalProject
             return column;
         }
     }
-
 
     // Game Board Class
     public class GameBoard
@@ -116,7 +116,7 @@ namespace SODV1202FinalProject
         {
             char playerSymbol = isPlayerOnesTurn ? player1.Symbol : player2.Symbol;
 
-            // Check for horizontal win
+            // Horizontal win check
             int count = 0;
             for (int c = Math.Max(0, col - 3); c <= Math.Min(col + 3, Columns - 1); c++)
             {
@@ -134,7 +134,7 @@ namespace SODV1202FinalProject
                 }
             }
 
-            // Check for vertical win
+            // Vertical win check
             count = 0;
             for (int r = Math.Max(0, row - 3); r <= Math.Min(row + 3, Rows - 1); r++)
             {
@@ -152,7 +152,7 @@ namespace SODV1202FinalProject
                 }
             }
 
-            // Check for diagonal win (top-left to bottom-right)
+            // Diagonal win check, top-left to bottom-right
             count = 0;
             int startRow = row - Math.Min(row, col);
             int startCol = col - Math.Min(row, col);
@@ -172,7 +172,7 @@ namespace SODV1202FinalProject
                 }
             }
 
-            // Check for diagonal win (top-right to bottom-left)
+            // Diagonal win check, top-right to bottom-left
             count = 0;
             startRow = row - Math.Min(row, Columns - 1 - col);
             startCol = col + Math.Min(row, Columns - 1 - col);
@@ -195,6 +195,7 @@ namespace SODV1202FinalProject
             return false;
         }
 
+        //Player draw play check
         public bool IsDraw()
         {
             for (int col = 0; col < Columns; col++)
@@ -207,6 +208,7 @@ namespace SODV1202FinalProject
             return true;
         }
 
+        //Current player move
         public int GetMove()
         {
             Player currentPlayer = isPlayerOnesTurn ? player1 : player2;
@@ -215,6 +217,7 @@ namespace SODV1202FinalProject
             return column;
         }
 
+        //Valid move check
         public bool IsValidMove(int column)
         {
             if (column < 0 || column >= Columns)
@@ -225,17 +228,20 @@ namespace SODV1202FinalProject
             return board[0, column] == ' ';
         }
 
+        //Set Human Players for Human vs Human Game Mode
         public void SetPlayers(HumanPlayer player1, HumanPlayer player2)
         {
             this.player1 = player1;
             this.player2 = player2;
         }
 
+        //Set Players turn to move
         public void SetPlayerTurn(bool isPlayerOnesTurn)
         {
             this.isPlayerOnesTurn = isPlayerOnesTurn;
         }
 
+        //Set Human and AI Players for Human vs AI Game Mode
         public void SetPlayersAI(HumanPlayer player1, AIPlayer player2)
         {
             this.player1 = player1;
@@ -243,7 +249,7 @@ namespace SODV1202FinalProject
         }
     }
 
-    // Two Player Human vs Human Mode Class
+    // Two Player Human vs Human Mode Game Control Class
     class Connect4TwoPlayerHuman : IConnectFourGame
     {
         private GameBoard gameBoard;
@@ -329,7 +335,7 @@ namespace SODV1202FinalProject
 
         private bool PlayAgain()
         {
-            Console.Write("Do you want to play again? (Y/N): ");
+            Console.Write("\nDo you want to play again? (Y/N): ");
             string input = Console.ReadLine().Trim();
             if (input.Equals("Y", StringComparison.OrdinalIgnoreCase))
             {
@@ -337,13 +343,16 @@ namespace SODV1202FinalProject
             }
             else
             {
-                Console.WriteLine("Thank you for playing!");
+                Console.WriteLine("\nThank you for playing!");
+                Thread.Sleep(2000);
+                Console.Clear();
+                Menu.GameMenu();
             }
             return false;
         }
     }
 
-    // Two Player Human vs AI Mode Class
+    // Two Player Human vs AI Mode Game Control Class
     class Connect4PlayerVsAI : IConnectFourGame
     {
         private GameBoard gameBoard;
@@ -451,12 +460,15 @@ namespace SODV1202FinalProject
             else
             {
                 Console.WriteLine("Thank you for playing!");
+                Thread.Sleep(2000);
+                Console.Clear();
+                Menu.GameMenu();
             }
         }
 
         private bool PlayAgain()
         {
-            Console.Write("Do you want to play again? (Y/N): ");
+            Console.Write("\nDo you want to play again? (Y/N): ");
             string input = Console.ReadLine().Trim();
             return input.Equals("Y", StringComparison.OrdinalIgnoreCase);
         }
