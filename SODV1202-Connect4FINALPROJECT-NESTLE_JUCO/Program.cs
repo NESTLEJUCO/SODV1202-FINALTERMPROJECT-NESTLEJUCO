@@ -1,10 +1,12 @@
-﻿using System;
+﻿//SODV1202 Final Term Project - Connect Four Game
+//Submitted By: Nestle Juco
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace SODV1202FinalProject
 {
-    // Interface
+    // Interface Class
     interface IConnectFourGame
     {
         void Play();
@@ -515,7 +517,7 @@ namespace SODV1202FinalProject
                 }
                 else
                 {
-                    Console.WriteLine("Invalid Selection. Please try again.\n");
+                    Console.WriteLine("\nInvalid Selection. Please try again.\n");
                 }
             }
         }
