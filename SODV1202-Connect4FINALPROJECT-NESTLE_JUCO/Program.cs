@@ -2,6 +2,8 @@
 //Submitted By: Nestle Juco
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 
 namespace SODV1202FinalProject
@@ -215,8 +217,19 @@ namespace SODV1202FinalProject
         {
             Player currentPlayer = isPlayerOnesTurn ? player1 : player2;
             Console.Write($"Player {currentPlayer.Name}'s turn.\nEnter a column number from 1-7, then press Enter: ");
-            int column = Convert.ToInt32(Console.ReadLine()) - 1;
-            return column;
+            try
+            {
+                int column = Convert.ToInt32(Console.ReadLine()) - 1;
+                return column;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Please enter valid input number.");
+                return -1;
+            }
+
+
+
         }
 
         //Valid move check
@@ -428,7 +441,7 @@ namespace SODV1202FinalProject
                 {
                     Console.WriteLine("Player AI Bot's turn.\nAI Bot is choosing a move, please wait.");
                     Thread.Sleep(2000);
-                    
+
                     int column = player2.GetMove(gameBoard);
                     int row = gameBoard.DropPiece(column);
 
@@ -485,40 +498,51 @@ namespace SODV1202FinalProject
     {
         public static void GameMenu()
         {
-            Console.WriteLine("Welcome to Connect Four Game!\n");
-            Console.WriteLine("Please select game mode below:\n");
-            Console.WriteLine("1 - Human vs Human");
-            Console.WriteLine("2 - Human vs AI Bot");
-            Console.WriteLine("3 - Exit\n");
-
-            int sel;
-            bool isValidSelection = false;
-
-            while (!isValidSelection)
+            try
             {
-                Console.Write("Key in Selection from 1-3, then press Enter: ");
-                string select = Console.ReadLine();
-                sel = int.Parse(select);
+                Console.WriteLine("Welcome to Connect Four Game!\n");
+                Console.WriteLine("Please select game mode below:\n");
+                Console.WriteLine("1 - Human vs Human");
+                Console.WriteLine("2 - Human vs AI Bot");
+                Console.WriteLine("3 - Exit\n");
 
-                if (sel == 1)
+                int sel;
+                bool isValidSelection = false;
+
+                while (!isValidSelection)
                 {
-                    HumanVsHuman();
-                    isValidSelection = true;
+                    Console.Write("Key in Selection from 1-3, then press Enter: ");
+                    string select = Console.ReadLine();
+                    sel = int.Parse(select);
+
+
+                    if (sel == 1)
+                    {
+                        HumanVsHuman();
+                        isValidSelection = true;
+                    }
+                    else if (sel == 2)
+                    {
+                        HumanVsAI();
+                        isValidSelection = true;
+                    }
+                    else if (sel == 3)
+                    {
+                        Console.WriteLine("\nExit Game, Thank you for playing!");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nInvalid Selection. Please try again.\n");
+                    }
                 }
-                else if (sel == 2)
-                {
-                    HumanVsAI();
-                    isValidSelection = true;
-                }
-                else if (sel == 3)
-                {
-                    Console.WriteLine("\nExit Game, Thank you for playing!");
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("\nInvalid Selection. Please try again.\n");
-                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nNot a numeric input. Please try again. Returning to Game Menu.\n");
+                Thread.Sleep(1000);
+                Console.Clear();
+                Menu.GameMenu();
             }
         }
 
