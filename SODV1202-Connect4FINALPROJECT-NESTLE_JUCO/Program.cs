@@ -14,6 +14,7 @@ namespace SODV1202FinalProject
         void Play();
     }
 
+
     // Abstract Player Class
     public abstract class Player
     {
@@ -25,6 +26,11 @@ namespace SODV1202FinalProject
             Name = name;
             Symbol = symbol;
         }
+
+        public override string ToString()
+        {
+            return $"{Name} ({Symbol})";
+        }
     }
 
     // Inheritance HumanPlayer Class with Base Class
@@ -33,6 +39,11 @@ namespace SODV1202FinalProject
         public HumanPlayer(string name, char symbol) : base(name, symbol)
         {
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 
     // Inheritance AIPlayer Class with Base Class
@@ -40,6 +51,11 @@ namespace SODV1202FinalProject
     {
         public AIPlayer(string name, char symbol) : base(name, symbol)
         {
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         public int GetMove(GameBoard gameBoard)
