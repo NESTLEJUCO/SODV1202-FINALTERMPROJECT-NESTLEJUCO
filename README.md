@@ -7,7 +7,7 @@ The Connect Four Game Project is developed using C# Programming Language. It is 
 3. AIPlayer Class - Derived class representing an AI player in the game.
 4. GameBoard Class - Representing the game board control and its operations.
 5. Connect4TwoPlayerHuman Class - Implementing the game logic for a two-player human vs. human mode.
-6. Cnnect4PlayerVsAI Class - Implementing the game logic for a human vs. AI mode.
+6. Connect4PlayerVsAI Class - Implementing the game logic for a human vs. AI mode.
 7. Menu Class: Containing the game menu and related functionality.
 8. IConnectFourGame Interface Class - Defining the Play method for Connect Four game modes.
 9. Main Program Class - Contains the entry point for the application.
